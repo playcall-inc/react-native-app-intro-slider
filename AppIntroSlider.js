@@ -24,6 +24,7 @@ export default class AppIntroSlider extends React.Component {
     activeDotStyle: {
       backgroundColor: 'rgba(255, 255, 255, .9)',
     },
+    dotClickEnabled: true,
     dotStyle: {
       backgroundColor: 'rgba(0, 0, 0, .2)',
     },
@@ -156,16 +157,29 @@ export default class AppIntroSlider extends React.Component {
         <View style={styles.paginationDots}>
           {this.props.slides.length > 1 &&
             this.props.slides.map((_, i) => (
-              <TouchableOpacity
-                key={i}
-                style={[
-                  styles.dot,
-                  this._rtlSafeIndex(i) === this.state.activeIndex
-                    ? this.props.activeDotStyle
-                    : this.props.dotStyle,
-                ]}
-                onPress={() => this._onPaginationPress(i)}
-              />
+              {this.props.dotClickEnabled ?
+                <TouchableOpacity
+                  key={i}
+                  style={[
+                    styles.dot,
+                    this._rtlSafeIndex(i) === this.state.activeIndex
+                      ? this.props.activeDotStyle
+                      : this.props.dotStyle,
+                  ]}
+                  onPress={() => this._onPaginationPress(i)}
+                />
+                :
+                <View
+                  key={i}
+                  style={[
+                    styles.dot,
+                    this._rtlSafeIndex(i) === this.state.activeIndex
+                      ? this.props.activeDotStyle
+                      : this.props.dotStyle,
+                  ]}
+                />
+              }
+              
             ))}
         </View>
         {btn}
@@ -213,6 +227,7 @@ export default class AppIntroSlider extends React.Component {
     const {
       hidePagination,
       activeDotStyle,
+      dotClickEnabled,
       dotStyle,
       skipLabel,
       doneLabel,
