@@ -35,6 +35,7 @@ export default class AppIntroSlider extends React.Component {
     buttonStyle: null,
     buttonTextStyle: null,
     paginationStyle: null,
+    showStartButton: true,
     showDoneButton: true,
     showNextButton: true,
   };
