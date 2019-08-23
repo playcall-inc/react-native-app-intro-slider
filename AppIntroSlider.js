@@ -27,6 +27,7 @@ export default class AppIntroSlider extends React.Component {
     dotStyle: {
       backgroundColor: 'rgba(0, 0, 0, .2)',
     },
+    startLabel: 'Start',
     skipLabel: 'Skip',
     doneLabel: 'Done',
     nextLabel: 'Next',
@@ -131,6 +132,8 @@ export default class AppIntroSlider extends React.Component {
     );
   };
 
+  _renderStartButton = () => this._renderButton('Start', this._onNextPress);
+
   _renderNextButton = () => this._renderButton('Next', this._onNextPress);
 
   _renderPrevButton = () => this._renderButton('Prev', this._onPrevPress);
@@ -149,14 +152,18 @@ export default class AppIntroSlider extends React.Component {
 
     const skipBtn =
       (!isFirstSlide && this._renderPrevButton()) || (!isLastSlide && this._renderSkipButton());
-    const btn = isLastSlide ? this._renderDoneButton() : this._renderNextButton();
+    const btn = isFirstSlide
+      ? this._renderStartButton()
+      : isLastSlide
+      ? this._renderDoneButton()
+      : this._renderNextButton();
 
     return (
       <View style={[styles.paginationContainer, this.props.paginationStyle]}>
         <View style={styles.paginationDots}>
           {this.props.slides.length > 1 &&
             this.props.slides.map((_, i) => (
-              <View
+              <TouchableOpacity
                 key={i}
                 style={[
                   styles.dot,
@@ -164,6 +171,7 @@ export default class AppIntroSlider extends React.Component {
                     ? this.props.activeDotStyle
                     : this.props.dotStyle,
                 ]}
+                onPress={() => this._onPaginationPress(i)}
               />
             ))}
         </View>
@@ -213,6 +221,7 @@ export default class AppIntroSlider extends React.Component {
       hidePagination,
       activeDotStyle,
       dotStyle,
+      startLabel,
       skipLabel,
       doneLabel,
       nextLabel,
